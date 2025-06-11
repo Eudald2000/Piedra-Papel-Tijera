@@ -139,7 +139,7 @@ h1 {
   outline: none;
 }
 
-.boton:hover, .boton:focus {
+.boton:hover{
   transform: scale(1.13);
   background: #ff9800;
   color: #232526;

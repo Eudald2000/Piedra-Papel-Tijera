@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react'
 import './App.css'
+import { Mensaje } from './components/Mensaje'
+import { Marcador } from './components/Marcador'
+import { ContenedorBotones } from './components/ContenedorBotones'
+import { Tablero } from './components/Tablero'
 
 function App () {
   const opciones = ['✊🏻', '✋🏻', '✌🏻']
@@ -22,7 +26,7 @@ function App () {
     localStorage.setItem('puntosMaquina', puntosMaquina)
   }, [puntosJugador, puntosMaquina])
 
-  const manejarClick = (event) => {
+  const handleClick = (event) => {
     const eleccionJugador = event.target.innerText
     setJugador(eleccionJugador)
     const nuevaMaquina = opciones[Math.floor(Math.random() * opciones.length)]
@@ -46,7 +50,7 @@ function App () {
   }
 
   // Botón para reiniciar el juego y el marcador
-  const reiniciarJuego = () => {
+  const restartGame = () => {
     setPuntosJugador(0)
     setPuntosMaquina(0)
     setJugador('')
@@ -58,44 +62,11 @@ function App () {
 
   return (
     <>
-      <h1>JUEGO DEL PIEDRA PAPEL O TIJERA</h1>
-      <div className='mensaje'>
-        {ganador !== '' && (
-          <h2>
-            {ganador === 0 && 'Es un empate'}
-            {ganador === 1 && '¡Has ganado!'}
-            {ganador === 2 && '¡La máquina gana!'}
-          </h2>
-        )}
-      </div>
-      <div className='marcador'>
-        <span>Jugador: {puntosJugador}</span>
-        <span>Máquina: {puntosMaquina}</span>
-      </div>
-      <div className="tablero">
-        <div className="contenedorJuego">
-          <h2>Opcion maquina</h2>
-          <div className="cuadroJuego">
-            {jugador ? maquina : ''}
-          </div>
-        </div>
-        <div className="vs">🆚</div>
-        <div className="contenedorJuego">
-          <h2>Opcion jugador</h2>
-          <div className="cuadroJuego">
-            {jugador}
-          </div>
-        </div>
-      </div>
-      <div className="contenedorBotones">
-        <h2>Elige una opcion</h2>
-        <div className="botones">
-          <button onClick={manejarClick} className="boton">✊🏻</button>
-          <button onClick={manejarClick} className="boton">✋🏻</button>
-          <button onClick={manejarClick} className="boton">✌🏻</button>
-        </div>
-        <button className='reiniciar' onClick={reiniciarJuego}>Reiniciar</button>
-      </div>
+      <h1>JUEGO DEL PIEDRA, PAPEL O TIJERA</h1>
+      <Mensaje esGanador={ganador}/>
+      <Marcador Jugador={puntosJugador} Maquina={puntosMaquina}/>
+      <Tablero player={jugador} machine={maquina}/>
+      <ContenedorBotones manejarClick={handleClick} reiniciarJuego={restartGame}/>
     </>
   )
 }
